@@ -4,9 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Happy Birthday!</title>
+
   <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
   <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
   <style>
     body {
       font-family: 'Arial', sans-serif;
@@ -16,24 +18,24 @@
       margin: 0;
       min-height: 100vh;
     }
+
     .section {
       margin: 30px 0;
     }
+
     .section-title {
       font-size: 2em;
       color: #2c3e50;
       margin-bottom: 20px;
     }
+
     .birthday-message {
       font-size: 2.5em;
       color: #ede8e7;
       margin: 0;
       text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
     }
-    .birthday-subtext {
-      font-size: 1.2em;
-      color: #2c3e50;
-    }
+
     .cards-container {
       display: flex;
       justify-content: center;
@@ -41,6 +43,7 @@
       flex-wrap: wrap;
       margin-top: 20px;
     }
+
     .card {
       width: 180px;
       height: 220px;
@@ -48,6 +51,7 @@
       cursor: pointer;
       margin: 10px;
     }
+
     .card-inner {
       position: relative;
       width: 100%;
@@ -56,9 +60,11 @@
       transition: transform 0.6s;
       transform-style: preserve-3d;
     }
+
     .card-inner.flipped {
       transform: rotateY(180deg);
     }
+
     .card-front, .card-back {
       position: absolute;
       width: 100%;
@@ -68,77 +74,101 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      font-size: 2em;
+      font-weight: bold;
+      padding: 15px;
     }
+
     .card-front {
       background-color: #e3e7e5;
-      color: white;
-      font-size: 1.5em;
+      color: #2c3e50;
     }
+
     .card-back {
       background-color: #ffd700;
       transform: rotateY(180deg);
-      padding: 10px;
-    }
-    .gift-image {
-      max-width: 100%;
-      max-height: 100%;
-      border-radius: 10px;
+      color: #2c3e50;
+      font-size: 1.3em;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      text-align: center;
     }
   </style>
 </head>
 <body>
-  <div id="root"></div>
-  <script type="text/babel">
-    const gifts = [
-      "https://media.giphy.com/media/l0HlNaQ6gWfllcjDO/giphy.gif",
-      "https://media.giphy.com/media/3o7TKSQ5rSQXuQjJ3a/giphy.gif",
-      "https://media.giphy.com/media/l41lWj8hVQY0VpLXy/giphy.gif",
-      "https://media.giphy.com/media/5xtDarGm6KXG8Dg1y1O/giphy.gif",
-      "https://media.giphy.com/media/xT5LMHxhOfscxPfIfm/giphy.gif",
-    ];
 
-    function GiftCard({ giftUrl }) {
-      const [flipped, setFlipped] = React.useState(false);
+<div id="root"></div>
 
-      const handleClick = () => {
-        setFlipped(!flipped);
-      };
+<script type="text/babel">
 
-      return (
-        <div className="card" onClick={handleClick}>
-          <div className={`card-inner ${flipped ? "flipped" : ""}`}>
-            <div className="card-front">Open Me!</div>
-            <div className="card-back">
-              <img src={giftUrl} alt="Gift" className="gift-image" />
-            </div>
-          </div>
+// Text-based gifts dictionary
+const gifts = {
+  1: "A sweet surprise waiting for you ❤️",
+  2: "One special memory we share ✨",
+  3: "A handwritten letter full of love 💌",
+  4: "A cute small gift but big meaning 🎀",
+  5: "Your smile is my favourite gift 😊"
+};
+
+// Shuffle function that stores in localStorage (persists after refresh)
+function shuffle(array) {
+  const stored = localStorage.getItem('giftOrder');
+  if (stored) {
+    return JSON.parse(stored);
+  } else {
+    const shuffled = array
+      .map(value => ({ value, sort: Math.random() }))
+      .sort((a, b) => a.sort - b.sort)
+      .map(({ value }) => value);
+    localStorage.setItem('giftOrder', JSON.stringify(shuffled));
+    return shuffled;
+  }
+}
+
+const randomNumbers = shuffle(Object.keys(gifts));
+
+function GiftCard({ number, text }) {
+  const [flipped, setFlipped] = React.useState(false);
+
+  return (
+    <div className="card" onClick={() => setFlipped(!flipped)}>
+      <div className={`card-inner ${flipped ? "flipped" : ""}`}>
+        <div className="card-front">{number}</div>
+        <div className="card-back">{text}</div>
+      </div>
+    </div>
+  );
+}
+
+function App() {
+  return (
+    <div>
+      <div className="section">
+        <h1 className="birthday-message">🎁 🎁 🎁 Happy Birthday Akshata! 🎁 🎁 🎁</h1>
+        <p className="birthday-subtext">May your coffee be strong, your food be crunchy, your back pain be tiny, and your irritations be funny".</p>
+      </div>
+
+      <div className="section">
+        <h2 className="section-title">✨ Pick a numbered card and reveal your surprise! ✨</h2>
+        <div className="cards-container">
+          {randomNumbers.map(num => (
+            <GiftCard 
+              key={num}
+              number={num}
+              text={gifts[num]}
+            />
+          ))}
         </div>
-      );
-    }
+      </div>
+    </div>
+  );
+}
 
-    function App() {
-      return (
-        <div>
-          <div className="section">
-            <h1 className="birthday-message">Happy Birthday!</h1>
-            <p className="birthday-subtext">Wishing you lots of love, joy, and surprises!</p>
-          </div>
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
 
-          <div className="section">
-            <h2 className="section-title">Special Surprise Cards</h2>
-            <div className="cards-container">
-              {gifts.map((gift, index) => (
-                <GiftCard key={index} giftUrl={gift} />
-              ))}
-            </div>
-          </div>
-        </div>
-      );
-    }
+</script>
 
-    const root = ReactDOM.createRoot(document.getElementById("root"));
-    root.render(<App />);
-  </script>
 </body>
 </html>
