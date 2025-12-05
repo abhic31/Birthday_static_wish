@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Happy Birthday!</title>
   <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
@@ -85,39 +85,22 @@
       max-height: 100%;
       border-radius: 10px;
     }
-    .video-player {
-      width: 100%;
-      height: 100%;
-      border-radius: 10px;
-      object-fit: cover;
-    }
-    .video-card-front {
-      background-color: #e7e8f0;
-    }
   </style>
 </head>
 <body>
   <div id="root"></div>
   <script type="text/babel">
-    // GIFs for the Gifts section
     const gifts = [
-      "https://media.giphy.com/media/l0HlNaQ6gWfllcjDO/giphy.gif", // Cake
-      "https://media.giphy.com/media/3o7TKSQ5rSQXuQjJ3a/giphy.gif", // Balloons
-      "https://media.giphy.com/media/l41lWj8hVQY0VpLXy/giphy.gif", // Party popper
-      "https://media.giphy.com/media/5xtDarGm6KXG8Dg1y1O/giphy.gif", // Confetti
-      "https://media.giphy.com/media/xT5LMHxhOfscxPfIfm/giphy.gif", // Birthday hug
+      "https://media.giphy.com/media/l0HlNaQ6gWfllcjDO/giphy.gif",
+      "https://media.giphy.com/media/3o7TKSQ5rSQXuQjJ3a/giphy.gif",
+      "https://media.giphy.com/media/l41lWj8hVQY0VpLXy/giphy.gif",
+      "https://media.giphy.com/media/5xtDarGm6KXG8Dg1y1O/giphy.gif",
+      "https://media.giphy.com/media/xT5LMHxhOfscxPfIfm/giphy.gif",
     ];
 
-    // Video URLs for the Video Wishes section
-    const videoWishes = [
-      "https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4", // Sample video URL
-      "https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_2mb.mp4", // Sample video URL
-      "https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_5mb.mp4", // Sample video URL
-    ];
-
-    // Gift Card Component
     function GiftCard({ giftUrl }) {
       const [flipped, setFlipped] = React.useState(false);
+
       const handleClick = () => {
         setFlipped(!flipped);
       };
@@ -125,31 +108,9 @@
       return (
         <div className="card" onClick={handleClick}>
           <div className={`card-inner ${flipped ? "flipped" : ""}`}>
-            <div className="card-front">Click Me!</div>
+            <div className="card-front">Open Me!</div>
             <div className="card-back">
-              <img src={giftUrl} alt="Birthday Gift" className="gift-image" />
-            </div>
-          </div>
-        </div>
-      );
-    }
-
-    // Video Card Component
-    function VideoCard({ videoUrl }) {
-      const [flipped, setFlipped] = React.useState(false);
-      const handleClick = () => {
-        setFlipped(!flipped);
-      };
-
-      return (
-        <div className="card" onClick={handleClick}>
-          <div className={`card-inner ${flipped ? "flipped" : ""}`}>
-            <div className="card-front video-card-front">Play Video</div>
-            <div className="card-back">
-              <video controls className="video-player">
-                <source src={videoUrl} type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
+              <img src={giftUrl} alt="Gift" className="gift-image" />
             </div>
           </div>
         </div>
@@ -161,23 +122,14 @@
         <div>
           <div className="section">
             <h1 className="birthday-message">Happy Birthday!</h1>
-            <p className="birthday-subtext">Wishing you a day filled with happiness and joy!</p>
+            <p className="birthday-subtext">Wishing you lots of love, joy, and surprises!</p>
           </div>
 
           <div className="section">
-            <h2 className="section-title">Gifts for You</h2>
+            <h2 className="section-title">Special Surprise Cards</h2>
             <div className="cards-container">
               {gifts.map((gift, index) => (
                 <GiftCard key={index} giftUrl={gift} />
-              ))}
-            </div>
-          </div>
-
-          <div className="section">
-            <h2 className="section-title">Video Wishes</h2>
-            <div className="cards-container">
-              {videoWishes.map((video, index) => (
-                <VideoCard key={index} videoUrl={video} />
               ))}
             </div>
           </div>
@@ -185,7 +137,7 @@
       );
     }
 
-    const root = ReactDOM.createRoot(document.getElementById('root'));
+    const root = ReactDOM.createRoot(document.getElementById("root"));
     root.render(<App />);
   </script>
 </body>
